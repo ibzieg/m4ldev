@@ -83,191 +83,50 @@ function getTable() {
 
 ////////////////////////////////////////////////////////////////////////////////
 function seed() {
-
-    for (var i = 0; i < tableSize; i++) {
-        var row = getTable().getRow(i);
-        var remaining = 1.0;
-
-        // Generate N random numbers with sum 1.0
-        for (var j = 0; j < tableSize; j++) {
-            if (j == tableSize-1) {
-                row[j] = remaining;
-            } else {
-                row[j] = remaining * Math.random();
-                remaining -= row[j];
-            }
-        }
-
-        // Randomly swap elements
-        for (var k = 0, n = tableSize*tableSize*tableSize; k < n; k++) {
-            var p = Math.round(Math.random() * (tableSize-1));
-            var q = Math.round(Math.random() * (tableSize-1));
-
-            var swap = row[p];
-            row[p] = row[q];
-            row[q] = swap;
-        }
-
-        getTable().setRow(i, row);
-
-    }
-
+    getTable().seed();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 function identity() {
-
-    var table = getTable();
-
-    table.setRow(0, [1, 0, 0, 0, 0, 0, 0, 0]);
-    table.setRow(1, [0, 1, 0, 0, 0, 0, 0, 0]);
-    table.setRow(2, [0, 0, 1, 0, 0, 0, 0, 0]);
-    table.setRow(3, [0, 0, 0, 1, 0, 0, 0, 0]);
-    table.setRow(4, [0, 0, 0, 0, 1, 0, 0, 0]);
-    table.setRow(5, [0, 0, 0, 0, 0, 1, 0, 0]);
-    table.setRow(6, [0, 0, 0, 0, 0, 0, 1, 0]);
-    table.setRow(7, [0, 0, 0, 0, 0, 0, 0, 1]);
-
+    getTable().identity();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 function random() {
-    var table = getTable();
-    var value = 1.0 / tableSize;
-    for (var i = 0; i < tableSize; i++) {
-        var row = [];
-        for (var j = 0; j < tableSize; j++) {
-            row[j] = value;
-        }
-        table.setRow(i, row);
-    }
-
+    getTable().random();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 function evolve() {
-    var table = getTable();
-
-    for (var i = 0; i < tableSize; i++) {
-        var row = table.getRow(i);
-
-        var p = Math.round(Math.random() * (tableSize-1));
-
-        var value = row[p];
-
-        var range = Math.random() > 0.5 ? 1.0 - value : -1.0 * value;
-
-        value += Math.random() * range * evolveAmount;
-
-        table.setCell(i, p, value);
-    }
-
+    getTable().evolve(evolveAmount);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 function converge() {
-
-    var table = getTable();
-
-    for (var i = 0; i < tableSize; i++) {
-        var row = table.getRow(i);
-
-        // Find largest element
-        var p = 0;
-        for (var j = 0; j < tableSize; j++) {
-            if (row[j] > row[p]) {
-                p = j;
-            }
-        }
-
-        var value = row[p];
-
-        var range = 1.0 - value;
-
-        value += Math.random() * range * evolveAmount;
-
-        table.setCell(i, p, value);
-    }
-
+    getTable().converge(evolveAmount);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 function diverge() {
-
-    var table = getTable();
-
-    for (var i = 0; i < tableSize; i++) {
-        var row = table.getRow(i);
-
-        // Find largest element
-        var p = 0;
-        for (var j = 0; j < tableSize; j++) {
-            if (row[j] > row[p]) {
-                p = j;
-            }
-        }
-
-        var value = row[p];
-
-        var range = -1.0 * value;
-
-        value += Math.random() * range * evolveAmount;
-
-        table.setCell(i, p, value);
-    }
-
+    getTable().diverge(evolveAmount);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 function shiftUp() {
-    var table = getTable();
-    var nextRow = table.getRow(0);
-    for (var i = tableSize-1; i >= 0; i--) {
-        var swap = table.getRow(i);
-        table.setRow(i, nextRow);
-        nextRow = swap;
-    }
+    getTable().shiftUp();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 function shiftDown() {
-    var table = getTable();
-    var previousRow = table.getRow(tableSize-1);
-    for (var i = 0; i < tableSize; i++) {
-        var swap = table.getRow(i);
-        table.setRow(i, previousRow);
-        previousRow = swap;
-    }
+    getTable().shiftDown();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 function shiftRight() {
-    var table = getTable();
-    for (var i = 0; i < tableSize; i++) {
-        var row = table.getRow(i);
-        var previous = row[tableSize-1];
-        for (var j = 0; j < tableSize; j++) {
-            var swap = row[j];
-            row[j] = previous;
-            previous = swap;
-
-        }
-        table.setRow(i, row);
-    }
+    getTable().shiftRight();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 function shiftLeft() {
-    var table = getTable();
-    for (var i = 0; i < tableSize; i++) {
-        var row = table.getRow(i);
-        var next = row[0];
-        for (var j = tableSize-1; j >= 0; j--) {
-            var swap = row[j];
-            row[j] = next;
-            next = swap;
-
-        }
-        table.setRow(i, row);
-    }
+    getTable().shiftLeft();
 }
