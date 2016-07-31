@@ -117,29 +117,36 @@ function msg_float(value) {
         setCell(value);
     }
 
-    var maxBgColor   = [0.0, 1.0, 0.0];
+/*    var maxBgColor   = [0.0, 1.0, 0.0];
     var minBgColor   = [1.0, 1.0, 1.0];
 
     var maxTextColor = [0.0, 0.0, 0.0];
+    var minTextColor = [0.4, 0.4, 0.4];*/
+
+    var maxBgColor   = [0.28, 0.6,  0.96];
+    var minBgColor   = [1.0, 0.64, 0.0];
+
+    var maxTextColor = [0.0, 0.0, 0.0];
     var minTextColor = [0.4, 0.4, 0.4];
+
 
     var numberBox = this.patcher.getnamed("probabilityNumberBox");
 
     numberBox.message(
         "activebgcolor",
-        /*  minBgColor[1] + (maxBgColor[1] - minBgColor[1]) * value,
-         minBgColor[2] + (maxBgColor[2] - minBgColor[2]) * value,
-         minBgColor[3] + (maxBgColor[3] - minBgColor[3]) * value,  */
-        1.0 - (0.7 * value),
+          minBgColor[0] + (maxBgColor[0] - minBgColor[0]) * value,
+          minBgColor[1] + (maxBgColor[1] - minBgColor[1]) * value,
+          minBgColor[2] + (maxBgColor[2] - minBgColor[2]) * value,
+/*        1.0 - (0.7 * value),
         0.3 + (0.7 * value),
-        0,
+        0,*/
         1);
 
     numberBox.message(
         "textcolor",
+        minTextColor[0] + (maxTextColor[0] - minTextColor[0]) * value,
         minTextColor[1] + (maxTextColor[1] - minTextColor[1]) * value,
         minTextColor[2] + (maxTextColor[2] - minTextColor[2]) * value,
-        minTextColor[3] + (maxTextColor[3] - minTextColor[3]) * value,
         1);
 
 
