@@ -1,4 +1,5 @@
 var ProbabilityTable = require("probability_table.js");
+var LomMap = require("lom_map.js");
 
 
 inlets = 0;
@@ -84,6 +85,7 @@ function resetModel () {
 function createModel() {
 
     var model = {
+        liveSet: new LomMap.LomMap(),
         properties: {
 
             probTable: {
