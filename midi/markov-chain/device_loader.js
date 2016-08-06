@@ -6,7 +6,14 @@
 /*******************************************************************************
  *
  */
-exports.getDevice = function (readyCallback) {
+exports.formatDeviceId = function (liveId) {
+  return "device"+liveId;
+};
+
+/*******************************************************************************
+ *
+ */
+exports.loadDevice = function () {
 
     var getDeviceId = function () {
         return "device"+id;
@@ -18,7 +25,7 @@ exports.getDevice = function (readyCallback) {
     var id = (new LiveAPI("this_device")).id;
     device = devices[getDeviceId()];
 
-    // Create the device if this is the first time it has been accessed
+/*    // Create the device if this is the first time it has been accessed
     if (!device) {
         devices[getDeviceId()] = {};
         device = devices[getDeviceId()];
@@ -27,19 +34,19 @@ exports.getDevice = function (readyCallback) {
 
     if (typeof readyCallback === "function") {
         if (device.initialized) {
-            readyCallback();
+            readyCallback(device);
         } else {
             if (!device.components) {
                 device.components = [];
             }
 
-            device.components.push({
+    *//*        device.components.push({
                 load: function () {
-                    readyCallback();
+                    readyCallback(device);
                 }
-            });
+            });*//*
         }
-    }
+    }*/
 
     return device;
 

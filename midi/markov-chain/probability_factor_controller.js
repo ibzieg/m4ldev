@@ -4,9 +4,12 @@ outlets = 1;
 var DeviceLoader = require("device_loader.js");
 
 function initialize() {
-    this.device = DeviceLoader.getDevice(function () {
-        load();
-    });
+/*   DeviceLoader.loadDevice(function(device) {
+       load(device);
+   });*/
+
+    this.device = DeviceLoader.loadDevice();
+    load();
 }
 
 /*******************************************************************************
@@ -17,25 +20,32 @@ function loadbang() {
     this.rowIndex = -1;
     this.colIndex = -1;
     this.initialized = false;
+    this.device = null;
 }
 
 /*******************************************************************************
  *
  */
 function load() {
-    if (this.rowIndex >= 0 && this.colIndex >= 0) {
+    //post("pfc: device loaded: "+this.device+"\n");
+    //this.device = device;*/
+
+   finishLoad();
+}
+
+function finishLoad() {
+
+    if (this.initialized != true   &&
+        this.device      != undefined  &&
+        this.tableType >= 0 &&
+        this.rowIndex  >= 0 &&
+        this.colIndex  >= 0 ){
 
         this.initialized = true;
-
         notifyValueChanged();
-
         this.device.markovChain.model.properties.probTable.target.observeRow(this.rowIndex, function () {
             notifyValueChanged();
         });
-
-    } else {
-        post("load failed because position is not set");
-        post("\n");
     }
 }
 
@@ -121,6 +131,7 @@ function msg_float(value) {
  */
 function setTableType(type) {
     this.tableType = type;
+    finishLoad();
 }
 
 /*******************************************************************************
@@ -129,4 +140,5 @@ function setTableType(type) {
 function setPosition(row, col) {
     this.rowIndex = row;
     this.colIndex = col;
+    finishLoad();
 }

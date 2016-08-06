@@ -25,15 +25,15 @@ function initialize() {
     id = (new LiveAPI("this_device")).id;
     device = devices[getDeviceId()];
 
-    // Create the device if this is the first time it has been accessed
+/*    // Create the device if this is the first time it has been accessed
     if (!device) {
         devices[getDeviceId()] = {};
         device = devices[getDeviceId()];
-    }
+    }*/
     /****************************************************************/
 
 
-    if (device.initialized) {
+/*    if (device.initialized) {
         load();
     } else {
         if (!device.components) {
@@ -45,12 +45,16 @@ function initialize() {
                 load();
             }
         });
-    }
+    }*/
+
+    load();
+    outlet(0,"initialize");
 
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 function load() {
+    //post("prob table ctlr loaded\n");
     this.initialized = true;
 }
 

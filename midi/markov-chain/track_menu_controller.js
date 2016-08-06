@@ -2,74 +2,72 @@
  * Created by ian on 7/31/16.
  */
 
+inlets = 1;
+outlets = 1;
+
 var DeviceLoader = require("device_loader.js");
 
 function initialize() {
-    this.device = DeviceLoader.getDevice(function () {
-        load();
-    });
+    this.device = DeviceLoader.loadDevice();
+    load();
+}
+
+function loadbang() {
+    this.initialized = false;
 }
 
 /*******************************************************************************
  *
  */
 function load() {
+    //this.device = device;
 
-//    var liveSet = new LiveAPI("live_set");
-//    liveSet.observe("tracks");
+    this.device.markovChain.liveSet.observe(function () {
+       resetMenu();
+    });
 
-/*      var tracks = new LiveAPI(function () {
-          post("the tracks changed\n");
-      }, "live_set");*/
+    resetMenu();
+
+    this.initialized = true;
+
 }
 
-
-
-
-/*******************************************************************************
- *
- */
-// This function searches the LOM for a track by it's text name and then
-// outputs the ID
-function name() {
-    var searchName = arguments[0];
-    for (var token = 1; token < arguments.length; token++) {
-        searchName += " " + arguments[token];
-    }
-
-    var liveSet = new LiveAPI("live_set");
-    var numTracks = liveSet.getcount("tracks");
-
-    for (var i = 0; i < numTracks; i++) {
-        var track = new LiveAPI("live_set tracks " + i);
-        var trackName = track.get("name");
-        if (trackName == searchName) {
-            outlet(0,"id",parseInt(track.id));
-            return;
+function resetMenu() {
+    outlet(0, "clear");
+    outlet(0, "append", "(none)");
+    var selectedName = this.device.markovChain.model.properties.getTargetTrackName();
+    post("resetMenu: searching for name: "+selectedName+"\n");
+    var matchedNameIndex = -1;
+    var liveSet = this.device.markovChain.liveSet.song;
+    for (var i = 0; i < liveSet.tracks.length; i++) {
+        var name = liveSet.tracks[i].name;
+        outlet(0,"append",name);
+        if (name == selectedName) {
+            matchedNameIndex = i;
         }
     }
 
-    // Not found
-    outlet(0,"id",0);
-}
-
-/*******************************************************************************
- *
- */
-// This function lists out all of the Live Track names as strings
-// and pumps them out in such a way to load the umenu
-function bang() {
-    var liveSet = new LiveAPI("live_set");
-    var numTracks = liveSet.getcount("tracks");
-
-    outlet(0, "clear");
-    for (var i = 0; i < numTracks; i++) {
-        var track = new LiveAPI("live_set tracks " + i);
-        var trackName = track.get("name");
-        //outlet(0, "append " + trackName);
-        outlet(0,"append",trackName);
+    if (matchedNameIndex >= 0) {
+        // The currently selected track still exists in the set.
+        // Update the menu selection to reflect our selection
+        //outlet(0,"setsymbol",name);
+        outlet(0,"set",matchedNameIndex+1);
+        // TODO this might cause an infinite loop
+    } else {
+        // Name is not matched. Leave the selection on the first default entry,
+        // which is the empty string.
+        // Update the model to reflect that no selection is made.
+        this.device.markovChain.model.properties.setTargetTrackName("");
     }
 
+}
+
+function setSelectedTrack(trackName) {
+    if (!this.initialized) {
+        return;
+    }
+    trackName = arguments[0];
+    device.markovChain.model.properties.setTargetTrackName(trackName);
 }
 
 

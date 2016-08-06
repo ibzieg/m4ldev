@@ -23,6 +23,7 @@ song = {
 */
 
 function LomMap(options) {
+    this.observers = [];
     this.refresh();
 }
 exports.LomMap = LomMap;
@@ -64,7 +65,24 @@ LomMap.prototype.refresh = function() {
 
         }
 
-
     }
 
+    this.notifyObservers();
+
 };
+
+////////////////////////////////////////////////////////////////////////////////
+LomMap.prototype.observe = function(callback) {
+    this.observers.push(callback);
+};
+
+////////////////////////////////////////////////////////////////////////////////
+LomMap.prototype.notifyObservers = function() {
+    for (var i = 0; i < this.observers.length; i++) {
+        var callback = this.observers[i];
+        if (typeof callback === "function") {
+            callback();
+        }
+    }
+};
+
