@@ -118,9 +118,9 @@ function msg_float(value) {
 function getTable() {
     var table;
     if (this.tableType === ProbabilityTable.TABLE_TYPE_PARENT) {
-        table = deviceGlobals.markovChain.model.properties.probTable.parent;
+        table = deviceGlobals.markovChain.model.parentTable;
     } else {
-        table = deviceGlobals.markovChain.model.properties.probTable.target;
+        table = deviceGlobals.markovChain.model.targetTable;
     }
     return table;
 }

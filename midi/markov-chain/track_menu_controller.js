@@ -76,9 +76,9 @@ function setSelectedTrack(trackName) {
     }
     trackName = arguments[0];
     if (this.tableType === ProbabilityTable.TABLE_TYPE_PARENT) {
-        deviceGlobals.markovChain.model.properties.setParentTrackName(trackName);
+        deviceGlobals.markovChain.model.setParentTrackName(trackName);
     } else {
-        deviceGlobals.markovChain.model.properties.setTargetTrackName(trackName);
+        deviceGlobals.markovChain.model.setTargetTrackName(trackName);
     }
 }
 
@@ -90,9 +90,9 @@ function getSelectedTrack() {
         return;
     }
     if (this.tableType === ProbabilityTable.TABLE_TYPE_PARENT) {
-        return deviceGlobals.markovChain.model.properties.getParentTrackName();
+        return deviceGlobals.markovChain.model.getParentTrackName();
     } else {
-        return deviceGlobals.markovChain.model.properties.getTargetTrackName();
+        return deviceGlobals.markovChain.model.getTargetTrackName();
     }
 }
 

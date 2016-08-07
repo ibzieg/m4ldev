@@ -1,77 +1,119 @@
-inlets = 0;
+inlets = 1;
 outlets = 1;
 
+var Device = require("device.js").Device;
+var ProbabilityTable = require("probability_table.js").ProbabilityTable;
 
-devices = {};
-device = {};
+var deviceGlobals;
 
-
-var tableSize = 8;
-
-
+/*******************************************************************************
+ *
+ */
 function initialize() {
-    ////////////////////////////////////////////////////////////////
-    // Make reference to this global device
-    //devices = new Global("devices");
-    //id = (new LiveAPI("this_device")).id;
-    //device = devices["device"+id];
-    //if (!device) device = {};
-    ////////////////////////////////////////////////////////////////
-    /****************************************************************
-     * This section can be reused by js module
-     ****************************************************************/
-    var getDeviceId = function () {
-        return "device"+id;
-    };
+    deviceGlobals = (new Device()).getGlobals();
+    this.initialized = true;
+}
 
-    // Make reference to this global device
-    devices = new Global("devices");
-    id = (new LiveAPI("this_device")).id;
-    device = devices[getDeviceId()];
+/*******************************************************************************
+ *
+ */
+function loadbang() {
+    this.initialized = false;
+}
 
-    // Create the device if this is the first time it has been accessed
-    if (!device) {
-        devices[getDeviceId()] = {};
-        device = devices[getDeviceId()];
+/*******************************************************************************
+ *
+ */
+function clock() {
+    //    Determine the currently playing clip
+    //    Get next state based on probabilities for this clip (clip index == row index)
+    //    Trigger the next clip
+    if (debug) {
+        post("clock trigger");
+        post("\n");
     }
-    /****************************************************************/
+
+    try {
+        for (var c = 0, n = selectedTrack.clips.length; c < n; c++) {
+            var clip = selectedTrack.clips[c];
+            if (clip.clip.get("is_playing") == true) {
+                //var destinationMap = probMap[c % tableSize];
+                var destinationMap = getProbabilityMap(c % tableSize);
+                var p = Math.round(Math.random() * destinationMap.length - 1);
+                var destinationIndex = destinationMap[p];
+                var destinationClip = selectedTrack.clips[destinationIndex];
+                post("firing clip: " + clip.name);
+                destinationClip.clip.call("fire");
+            }
+        }
+    } catch (error) {
+        post("Failed to fire clip: " + error);
+        post("\n");
+    }
 
 
-    if (device.initialized) {
-        load();
-    } else {
-        if (!device.components) {
-            device.components = [];
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+function getProbabilityMap(clipIndex) {
+    var c, n;
+
+    // Make local copy of array
+    var probability = [];
+    for (c = 0; c < tableSize; c++) {
+        probability[c] = probTable[clipIndex][c];
+    }
+
+    // find which clip is playing on 2nd Order track and get probability vector for that clip
+    var probability2 = [];
+    for (c = 0; c < selectedTrack2.clips.length; c++) {
+        probability2[c] = 0;
+    }
+
+    try {
+        for (c = 0, n = selectedTrack2.clips.length; c < n; c++) {
+            var clip = selectedTrack2.clips[c];
+            if (clip.clip.get("is_playing") == true) {
+                probability2 = probTable2[c];
+                break;
+            }
+        }
+    } catch (error) {
+        probability2 = [0, 0, 0, 0, 0, 0, 0, 0];
+        post("Failed to read from 2nd Order clip: "+error);
+        post("\n");
+    }
+
+    // add vectors together and normalize them
+    var sum = 0;
+    for (c = 0, n = probability.length; c < n; c++) {
+        var secondOrder = probability2[c % probability2.length];
+
+        // Reduce the second order by 1/n where n is the size of the vector
+        secondOrder -= 1.0 / tableSize;
+        if (secondOrder < 0) {
+            secondOrder = 0;
         }
 
-        device.components.push({
-            load: function () {
-                load();
-            }
-        });
-        post("waiting for main");
-        post("\n");
-
+        probability[c] = probability[c] + secondOrder;
+        sum += probability[c];
     }
 
+    for (c = 0, n = probability.length; c < n; c++) {
+        probability[c] = probability[c] / sum;
+    }
+
+    // build the map
+    var map = [];
+    var p = 0;
+    for (var i = 0; i < tableSize; i++) {
+        var percent = map.length + Math.round(probability[i] * 100);
+        for ( ; p < percent; p++) {
+            map[p] = i;
+        }
+    }
+
+    return map;
+
 }
-
-function load() {
-
-/*    post("adding observer");
-    post("\n");
-    device.markovChain.model.properties.name.observe(function (newValue) {
-       render();
-    });*/
-
-    render();
-}
-
-function render() {
-/*    var str = device.markovChain.model.data.name;
-    post("the name is " + str);
-    post("\n");
-    outlet(0, "rendered model: " +str);*/
-}
-
-
