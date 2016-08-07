@@ -1,44 +1,50 @@
-/**
- * Created by ian on 7/31/16.
- */
-
 inlets = 1;
 outlets = 1;
 
-var DeviceLoader = require("device_loader.js");
+var Device = require("device.js").Device;
+var ProbabilityTable = require("probability_table.js").ProbabilityTable;
 
+var deviceGlobals;
+
+/*******************************************************************************
+ *
+ */
 function initialize() {
-    this.device = DeviceLoader.loadDevice();
+    deviceGlobals = (new Device()).getGlobals();
     load();
 }
 
+/*******************************************************************************
+ *
+ */
 function loadbang() {
     this.initialized = false;
+    this.tableType = -1;
 }
 
 /*******************************************************************************
  *
  */
 function load() {
-    //this.device = device;
+    this.initialized = true;
 
-    this.device.markovChain.liveSet.observe(function () {
+    deviceGlobals.markovChain.liveSet.observe(function () {
        resetMenu();
     });
-
     resetMenu();
-
-    this.initialized = true;
 
 }
 
+/*******************************************************************************
+ *
+ */
 function resetMenu() {
     outlet(0, "clear");
     outlet(0, "append", "(none)");
-    var selectedName = this.device.markovChain.model.properties.getTargetTrackName();
-    post("resetMenu: searching for name: "+selectedName+"\n");
+    var selectedName = getSelectedTrack();
+    //post("resetMenu: searching for name: "+selectedName+"\n");
     var matchedNameIndex = -1;
-    var liveSet = this.device.markovChain.liveSet.song;
+    var liveSet = deviceGlobals.markovChain.liveSet.song;
     for (var i = 0; i < liveSet.tracks.length; i++) {
         var name = liveSet.tracks[i].name;
         outlet(0,"append",name);
@@ -57,18 +63,42 @@ function resetMenu() {
         // Name is not matched. Leave the selection on the first default entry,
         // which is the empty string.
         // Update the model to reflect that no selection is made.
-        this.device.markovChain.model.properties.setTargetTrackName("");
+        setSelectedTrack("");
     }
-
 }
 
+/*******************************************************************************
+ *
+ */
 function setSelectedTrack(trackName) {
     if (!this.initialized) {
         return;
     }
     trackName = arguments[0];
-    device.markovChain.model.properties.setTargetTrackName(trackName);
+    if (this.tableType === ProbabilityTable.TABLE_TYPE_PARENT) {
+        deviceGlobals.markovChain.model.properties.setParentTrackName(trackName);
+    } else {
+        deviceGlobals.markovChain.model.properties.setTargetTrackName(trackName);
+    }
 }
 
+/*******************************************************************************
+ *
+ */
+function getSelectedTrack() {
+    if (!this.initialized) {
+        return;
+    }
+    if (this.tableType === ProbabilityTable.TABLE_TYPE_PARENT) {
+        return deviceGlobals.markovChain.model.properties.getParentTrackName();
+    } else {
+        return deviceGlobals.markovChain.model.properties.getTargetTrackName();
+    }
+}
 
-// How do you send a command to a umenu to select a particular item?
+/*******************************************************************************
+ *
+ */
+function setTableType(type) {
+    this.tableType = parseInt(type);
+}

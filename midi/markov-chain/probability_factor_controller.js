@@ -1,16 +1,10 @@
 inlets = 1;
 outlets = 1;
 
-var DeviceLoader = require("device_loader.js");
+var Device = require("device.js").Device;
+var ProbabilityTable = require("probability_table.js").ProbabilityTable;
 
-function initialize() {
-/*   DeviceLoader.loadDevice(function(device) {
-       load(device);
-   });*/
-
-    this.device = DeviceLoader.loadDevice();
-    load();
-}
+var deviceGlobals;
 
 /*******************************************************************************
  *
@@ -20,30 +14,38 @@ function loadbang() {
     this.rowIndex = -1;
     this.colIndex = -1;
     this.initialized = false;
-    this.device = null;
+}
+
+/*******************************************************************************
+ *
+ */
+function initialize() {
+    deviceGlobals = (new Device()).getGlobals();
+    load();
 }
 
 /*******************************************************************************
  *
  */
 function load() {
-    //post("pfc: device loaded: "+this.device+"\n");
-    //this.device = device;*/
-
+    //post("pfc: device loaded: "+deviceGlobals+"\n");
    finishLoad();
 }
 
+/*******************************************************************************
+ *
+ */
 function finishLoad() {
 
     if (this.initialized != true   &&
-        this.device      != undefined  &&
+        deviceGlobals      != undefined  &&
         this.tableType >= 0 &&
         this.rowIndex  >= 0 &&
         this.colIndex  >= 0 ){
 
         this.initialized = true;
         notifyValueChanged();
-        this.device.markovChain.model.properties.probTable.target.observeRow(this.rowIndex, function () {
+        getTable().observeRow(this.rowIndex, function () {
             notifyValueChanged();
         });
     }
@@ -61,33 +63,17 @@ function notifyValueChanged() {
  *
  */
 function setCell(value) {
-
     if (!this.initialized) {
         return;
     }
-
-    var table;
-    if (this.tableType === 1) {
-        table = this.device.markovChain.model.properties.probTable.parent;
-    } else {
-        table = this.device.markovChain.model.properties.probTable.target;
-    }
-
-    table.setCell(this.rowIndex, this.colIndex, value);
+    getTable().setCell(this.rowIndex, this.colIndex, value);
 }
 
 /*******************************************************************************
  *
  */
 function getCell() {
-    var table;
-    if (this.tableType === 1) {
-        table = this.device.markovChain.model.properties.probTable.parent;
-    } else {
-        table = this.device.markovChain.model.properties.probTable.target;
-    }
-
-    return table.getCell(this.rowIndex, this.colIndex);
+    return getTable().getCell(this.rowIndex, this.colIndex);
 }
 
 /*******************************************************************************
@@ -124,6 +110,19 @@ function msg_float(value) {
         minTextColor[2] + (maxTextColor[2] - minTextColor[2]) * value,
         1);
 
+}
+
+/*******************************************************************************
+ *
+ */
+function getTable() {
+    var table;
+    if (this.tableType === ProbabilityTable.TABLE_TYPE_PARENT) {
+        table = deviceGlobals.markovChain.model.properties.probTable.parent;
+    } else {
+        table = deviceGlobals.markovChain.model.properties.probTable.target;
+    }
+    return table;
 }
 
 /*******************************************************************************

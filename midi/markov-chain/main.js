@@ -1,94 +1,39 @@
 var ProbabilityTable = require("probability_table.js");
 var LomMap = require("lom_map.js");
-
+var Device = require("device.js");
 
 inlets = 1;
 outlets = 1;
 
+var deviceGlobals;
 
+function initialize() {
 
-//devices = {};
-device = undefined;
-//id = 0;
-var storedModel = undefined;
-
-
-
-
-
-
-/*function generateDeviceId() {
-    var devices = new Global("devices");
-    if (typeof devices.lastId !== "number") {
-        devices.lastId = 0;
-    } else {
-        devices.lastId += 1;
-    }
-    return "device" + devices.lastId;
-}*/
-
-
-var DeviceLoader = require("device_loader.js");
-
-function initialize(deviceId) {
-
-    /****************************************************************
-     * This section can be reused by js module
-     ****************************************************************/
-
-
-    var getDeviceId = function () {
-        return "device"+id;
-    };
-
-    // Make reference to this global device
-    //var device;
-    var devices = new Global("devices");
-    var id = (new LiveAPI("this_device")).id;
-    devices[getDeviceId()] = {};
-    device = devices[getDeviceId()];
-
-    /****************************************************************/
+    deviceGlobals = (new Device.Device()).initGlobals();
 
     // Initialize data model
-
-    device.markovChain = {
+    deviceGlobals.markovChain = {
         liveSet: new LomMap.LomMap(),
         model: createModel()
     };
 
-    cpost("test message!\n");
-
-    if (storedModel) {
-        //device.markovChain.model.data = storedModel;
-        post("loading stored model: "+storedModel+"\n");
-        device.markovChain.model.properties.setTargetTrackName(storedModel.targetTrackName);
-        device.markovChain.model.properties.probTable.target.setProbTable(storedModel.target);
-        //device.markovChain.model.properties.probTable.parent.setProbTable(storedModel.parent);
+    // Load pattr data
+    if (this.storedModel) {
+        //post("loading stored model: "+this.storedModel+"\n");
+        deviceGlobals.markovChain.model.properties.setTargetTrackName(this.storedModel.targetTrackName);
+        deviceGlobals.markovChain.model.properties.setParentTrackName(this.storedModel.parentTrackName);
+        deviceGlobals.markovChain.model.properties.probTable.target.setProbTable(this.storedModel.target);
+        deviceGlobals.markovChain.model.properties.probTable.parent.setProbTable(this.storedModel.parent);
     }
 
-
-    device.initialized = true;
-
-    // Notify others that the device is initialized
-/*    if (device.components) {
-        for (var i = 0; i < device.components.length; i++) {
-            try {
-                device.components[i].load();
-            } catch(error) {
-                post("component["+i+"] failed to load: "+error);
-                post("\n");
-            }
-        }
-    }*/
+    deviceGlobals.initialized = true;
 
     // Tell children to initialize
     outlet(0,"initialize");
-
 }
 
 function resetModel () {
-    device.markovChain = {
+    deviceGlobals.markovChain = {
         liveSet: new LomMap.LomMap(),
         model: createModel()
     };
@@ -103,21 +48,21 @@ function createModel() {
 
              targetTrackName: "",
              setTargetTrackName: function (value) {
-                 device.markovChain.model.properties.targetTrackName = value;
-                 post("track name set to: "+value+"\n");
+                 deviceGlobals.markovChain.model.properties.targetTrackName = value;
+                 //post("track name set to: "+value+"\n");
                  notifyclients();
              },
              getTargetTrackName: function () {
-                 return   device.markovChain.model.properties.targetTrackName;
+                 return   deviceGlobals.markovChain.model.properties.targetTrackName;
              },
-             
-             
+
              parentTrackName: "",
              setParentTrackName: function (value) {
-                 model.properties.parentTrackName = value;
+                 deviceGlobals.markovChain.model.properties.parentTrackName = value;
+                 notifyclients();
              },
              getParentTrackName: function () {
-                 return   model.properties.targetTrackName;
+                 return   deviceGlobals.markovChain.model.properties.parentTrackName;
              },
 
             probTable: {
@@ -125,12 +70,12 @@ function createModel() {
                     notifyMaxAttr: function () {
                         notifyclients();
                     }
-                })
- /*               parent: new ProbabilityTable.ProbabilityTable({
+                }),
+                parent: new ProbabilityTable.ProbabilityTable({
                     notifyMaxAttr: function () {
                         notifyclients();
                     }
-                })*/
+                })
             }
 
         }
@@ -144,23 +89,25 @@ function setvalueof(value) {
     //post("setvalueof: "+value +"\n");
     var deserializedModel = JSON.parse(value);
 
-    post("setvalueof trackName: "+deserializedModel.targetTrackName+"\n");
+    //post("setvalueof trackName: "+deserializedModel.targetTrackName+"\n");
 
-    if (device && device.markovChain) {
-        device.markovChain.model.properties.setTargetTrackName(deserializedModel.targetTrackName);
-        device.markovChain.model.properties.probTable.target.setProbTable(deserializedModel.target);
-        //device.markovChain.model.properties.probTable.parent.setProbTable(deserializedModel.parent);
+    if (deviceGlobals && deviceGlobals.markovChain) {
+        deviceGlobals.markovChain.model.properties.setTargetTrackName(deserializedModel.targetTrackName);
+        deviceGlobals.markovChain.model.properties.setParentTrackName(deserializedModel.parentTrackName);
+        deviceGlobals.markovChain.model.properties.probTable.target.setProbTable(deserializedModel.target);
+        deviceGlobals.markovChain.model.properties.probTable.parent.setProbTable(deserializedModel.parent);
     } else {
-        storedModel = deserializedModel;
+        this.storedModel = deserializedModel;
     }
 }
 
 function getvalueof() {
     try {
         var serializedModel = JSON.stringify({
-            targetTrackName: device.markovChain.model.properties.getTargetTrackName(),
-            target: device.markovChain.model.properties.probTable.target.getProbTable()
-            //parent: device.markovChain.model.properties.probTable.parent.getProbTable()
+            targetTrackName: deviceGlobals.markovChain.model.properties.getTargetTrackName(),
+            parentTrackName: deviceGlobals.markovChain.model.properties.getParentTrackName(),
+            target: deviceGlobals.markovChain.model.properties.probTable.target.getProbTable(),
+            parent: deviceGlobals.markovChain.model.properties.probTable.parent.getProbTable()
         });
        // post("getvalueof: "+serializedModel+"\n");
         return serializedModel;
@@ -171,5 +118,5 @@ function getvalueof() {
 
 
 function refreshLomMap() {
-    device.markovChain.liveSet.refresh();
+    deviceGlobals.markovChain.liveSet.refresh();
 }
