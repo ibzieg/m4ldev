@@ -4,14 +4,15 @@
 
 /*
 song = {
+    liveObject: live.object ("live_set")
     tracks: [
         track {
-            tracks: live.object
+            liveObject: live.object
             name: string
             id: int
             clips: [
                 clip {
-                    clip: live.object
+                    liveObject: live.object
                     name: string
                     id: int
                 }
