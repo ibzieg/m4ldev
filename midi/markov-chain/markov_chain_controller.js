@@ -55,12 +55,11 @@ function clock() {
     //    Determine the currently playing clip
     //    Get next state based on probabilities for this clip (clip index == row index)
     //    Trigger the next clip
-/*    if (debug) {
-        post("clock trigger");
-        post("\n");
-    }*/
-
     var selectedTrack = getSelectedTargetTrack();
+
+    if (!selectedTrack) {
+        return;
+    }
 
     try {
         for (var c = 0, n = selectedTrack.clips.length; c < n; c++) {
@@ -71,7 +70,7 @@ function clock() {
                 var p = Math.round(Math.random() * destinationMap.length - 1);
                 var destinationIndex = destinationMap[p];
                 var destinationClip = selectedTrack.clips[destinationIndex];
-                post("firing clip: " + clip.name);
+                //post("firing clip: " + clip.name);
                 destinationClip.liveObject.call("fire");
             }
         }
@@ -82,8 +81,9 @@ function clock() {
 
 }
 
-
-////////////////////////////////////////////////////////////////////////////////
+/*******************************************************************************
+ *
+ */
 function getProbabilityMap(clipIndex) {
     var c, n;
 
@@ -103,18 +103,20 @@ function getProbabilityMap(clipIndex) {
         probability2[c] = 0;
     }
 
-    try {
-        for (c = 0, n = parentTrack.clips.length; c < n; c++) {
-            var clip = parentTrack.clips[c];
-            if (clip.liveObject.get("is_playing") == true) {
-                probability2 = parentTable[c];
-                break;
+    if (parentTrack) {
+        try {
+            for (c = 0, n = parentTrack.clips.length; c < n; c++) {
+                var clip = parentTrack.clips[c];
+                if (clip.liveObject.get("is_playing") == true) {
+                    probability2 = parentTable[c];
+                    break;
+                }
             }
+        } catch (error) {
+            probability2 = [0, 0, 0, 0, 0, 0, 0, 0];
+            post("Failed to read from 2nd Order clip: " + error);
+            post("\n");
         }
-    } catch (error) {
-        probability2 = [0, 0, 0, 0, 0, 0, 0, 0];
-        post("Failed to read from 2nd Order clip: "+error);
-        post("\n");
     }
 
     // add vectors together and normalize them
