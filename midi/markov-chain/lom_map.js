@@ -93,3 +93,15 @@ LomMap.prototype.notifyObservers = function() {
     }
 };
 
+/*******************************************************************************
+ *
+ */
+LomMap.prototype.getTrackByName = function(trackName) {
+    var tracks = this.song.tracks;
+    for (var i = 0, n = tracks.length; i < n; i++) {
+        var track = tracks[i];
+        if (track.name == trackName) {
+            return track;
+        }
+    }
+};

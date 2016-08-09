@@ -42,6 +42,13 @@ function setEvolveAmount(amount) {
     }
 
     this.evolveAmount = amount;
+
+    if (this.tableType === ProbabilityTable.TABLE_TYPE_PARENT) {
+        deviceGlobals.markovChain.model.parentEvolveAmount = amount;
+    } else {
+        deviceGlobals.markovChain.model.targetEvolveAmount = amount;
+    }
+
 }
 
 /*******************************************************************************

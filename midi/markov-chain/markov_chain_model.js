@@ -11,6 +11,9 @@ function MarkovChainModel(options) {
     this.targetTrackname = "";
     this.parentTrackName = "";
 
+    this.targetEvolveAmount = 0.0;
+    this.parentEvolveAmount = 0.0;
+
     this.targetTable = new ProbabilityTable({
         notifyMaxAttr: options.notifyMaxAttr
     });

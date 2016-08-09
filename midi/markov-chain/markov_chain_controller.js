@@ -25,20 +25,22 @@ function loadbang() {
  *
  */
 function getSelectedTargetTrack() {
-    return getTrackByName(deviceGlobals.markovChain.model.getTargetTrackName());
+    return deviceGlobals.markovChain.liveSet.getTrackByName(
+        deviceGlobals.markovChain.model.getTargetTrackName());
 }
 
 /*******************************************************************************
  *
  */
 function getSelectedParentTrack() {
-    return getTrackByName(deviceGlobals.markovChain.model.getParentTrackName());
+    return deviceGlobals.markovChain.liveSet.getTrackByName(
+        deviceGlobals.markovChain.model.getParentTrackName());
 }
 
 /*******************************************************************************
  *
  */
-function getTrackByName(trackName) {
+/*function getTrackByName(trackName) {
     var tracks = deviceGlobals.markovChain.liveSet.song.tracks;
     for (var i = 0, n = tracks.length; i < n; i++) {
         var track = tracks[i];
@@ -46,7 +48,7 @@ function getTrackByName(trackName) {
             return track;
         }
     }
-}
+}*/
 
 /*******************************************************************************
  *
@@ -113,7 +115,6 @@ function getProbabilityMap(clipIndex) {
                 }
             }
         } catch (error) {
-            probability2 = [0, 0, 0, 0, 0, 0, 0, 0];
             post("Failed to read from 2nd Order clip: " + error);
             post("\n");
         }
