@@ -40,19 +40,6 @@ function getSelectedParentTrack() {
 /*******************************************************************************
  *
  */
-/*function getTrackByName(trackName) {
-    var tracks = deviceGlobals.markovChain.liveSet.song.tracks;
-    for (var i = 0, n = tracks.length; i < n; i++) {
-        var track = tracks[i];
-        if (track.name == trackName) {
-            return track;
-        }
-    }
-}*/
-
-/*******************************************************************************
- *
- */
 function clock() {
     //    Determine the currently playing clip
     //    Get next state based on probabilities for this clip (clip index == row index)
@@ -101,7 +88,7 @@ function getProbabilityMap(clipIndex) {
 
     // find which clip is playing on 2nd Order track and get probability vector for that clip
     var probability2 = [];
-    for (c = 0; c < parentTrack.clips.length; c++) {
+    for (c = 0; c < ProbabilityTable.TABLE_SIZE; c++) {
         probability2[c] = 0;
     }
 

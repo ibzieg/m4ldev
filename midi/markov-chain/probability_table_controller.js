@@ -19,16 +19,9 @@ function loadbang() {
  */
 function initialize() {
     deviceGlobals = (new Device()).getGlobals();
-    load();
-    outlet(0,"initialize");
-}
-
-/*******************************************************************************
- *
- */
-function load() {
-    //post("prob table ctlr loaded\n");
+    updateGlobalEvolveAmount();
     this.initialized = true;
+    outlet(0,"initialize");
 }
 
 /*******************************************************************************
@@ -43,12 +36,18 @@ function setEvolveAmount(amount) {
 
     this.evolveAmount = amount;
 
-    if (this.tableType === ProbabilityTable.TABLE_TYPE_PARENT) {
-        deviceGlobals.markovChain.model.parentEvolveAmount = amount;
-    } else {
-        deviceGlobals.markovChain.model.targetEvolveAmount = amount;
+    if (deviceGlobals) {
+        updateGlobalEvolveAmount();
     }
 
+}
+
+function updateGlobalEvolveAmount() {
+    if (this.tableType === ProbabilityTable.TABLE_TYPE_PARENT) {
+        deviceGlobals.markovChain.model.parentEvolveAmount = this.evolveAmount;
+    } else {
+        deviceGlobals.markovChain.model.targetEvolveAmount = this.evolveAmount;
+    }
 }
 
 /*******************************************************************************
