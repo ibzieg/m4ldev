@@ -63,6 +63,8 @@ function mapNoteToAction(noteNumber) {
     /* D  0 */ case 26: fireClip(6); break;
     /* D# 0 */ case 27: fireClip(7); break;
 
+    /* E  0 */ case 28: stopAllClips(); break;
+
     }
 }
 
@@ -77,5 +79,16 @@ function fireClip(clipIndex) {
         if (clip) {
             clip.liveObject.call("fire");
         }
+    }
+}
+
+/*******************************************************************************
+ * Stop all clips on the selected track
+ */
+function stopAllClips() {
+    var track = deviceGlobals.markovChain.liveSet.getTrackByName(
+        deviceGlobals.markovChain.model.getTargetTrackName());
+    if (track) {
+        track.liveObject.call("stop_all_clips");
     }
 }
