@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 813.0, 215.0, 851.0, 752.0 ],
+		"rect" : [ 346.0, 173.0, 633.0, 752.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -110,7 +110,7 @@
 			}
 , 			{
 				"box" : 				{
-					"activebgcolor" : [ 0.702903, 0.597097, 0.0, 1.0 ],
+					"activebgcolor" : [ 1.0, 0.64, 0.0, 1.0 ],
 					"id" : "obj-4",
 					"maxclass" : "live.numbox",
 					"numinlets" : 1,
@@ -124,15 +124,15 @@
 						"valueof" : 						{
 							"parameter_longname" : "live.numbox",
 							"parameter_shortname" : "live.numbox",
-							"parameter_type" : 0,
-							"parameter_mmax" : 1.0,
-							"parameter_unitstyle" : 1,
-							"parameter_steps" : 1000
+							"parameter_type" : 1,
+							"parameter_mmax" : 64.0,
+							"parameter_unitstyle" : 0,
+							"parameter_steps" : 64
 						}
 
 					}
 ,
-					"textcolor" : [ 0.23023, 0.23023, 0.0, 1.0 ],
+					"textcolor" : [ 0.4, 0.4, 0.4, 1.0 ],
 					"varname" : "probabilityNumberBox"
 				}
 
