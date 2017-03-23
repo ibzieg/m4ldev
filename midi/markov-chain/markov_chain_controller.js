@@ -107,31 +107,16 @@ function getProbabilityMap(clipIndex) {
         }
     }
 
-    // add vectors together and normalize them
-    var sum = 0;
+    // add vectors together
     for (c = 0, n = probability.length; c < n; c++) {
-        var secondOrder = probability2[c % probability2.length];
-
-        // Reduce the second order by 1/n where n is the size of the vector
-        // So that if second order table is equally random, it has no effect
-        secondOrder -= 1.0 / ProbabilityTable.TABLE_SIZE;
-        if (secondOrder < 0) {
-            secondOrder = 0;
-        }
-
-        probability[c] = probability[c] + secondOrder;
-        sum += probability[c];
-    }
-
-    for (c = 0, n = probability.length; c < n; c++) {
-        probability[c] = probability[c] / sum;
+        probability[c] = probability[c] + probability2[c];
     }
 
     // build the map
     var map = [];
     var p = 0;
     for (var i = 0; i < ProbabilityTable.TABLE_SIZE; i++) {
-        var percent = map.length + Math.round(probability[i] * 100);
+        var percent = map.length + Math.round(probability[i]);
         for ( ; p < percent; p++) {
             map[p] = i;
         }
