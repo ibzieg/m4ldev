@@ -1,23 +1,27 @@
-"use strict";
-
 var Device = require("device.js").Device;
+var DataModel = require("data_model.js").DataModel;
+
 inlets = 1;
 outlets = 1;
+
+var deviceId;
 var deviceGlobals;
+
 /*******************************************************************************
  *
  */
 function initialize() {
-    deviceGlobals = (new Device()).initGlobals();
-
-    post((new Device()).getFormattedId());
+    deviceId = Device.createDeviceId();
+    deviceGlobals = Device.initGlobals(deviceId);
 
     if (this.storedModel) {
         // deviceGlobals.markovChain.model.deserialize(this.storedModel);
     }
-    // Tell children to initialize
-    deviceGlobals.initialized = true;
-    outlet(0, "initialize");
+
+    deviceGlobals.model = new DataModel();
+    post("datamodel: "+deviceGlobals.model.id);
+
+    outlet(0, "initialize", deviceId);
 }
 /*******************************************************************************
  *

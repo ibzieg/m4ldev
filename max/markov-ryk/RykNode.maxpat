@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 848.0, 158.0, 631.0, 557.0 ],
+		"rect" : [ 40.0, 112.0, 758.0, 644.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -38,11 +38,116 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-25",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 11.0, 117.5, 132.0, 22.0 ],
+					"style" : "",
+					"text" : "prepend setNodeIndex"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-14",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 11.0, 79.5, 74.0, 22.0 ],
+					"style" : "",
+					"text" : "patcherargs"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-24",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 383.25, 287.0, 99.0, 22.0 ],
+					"style" : "",
+					"text" : "prepend setLock"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-23",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 335.0, 253.0, 99.0, 22.0 ],
+					"style" : "",
+					"text" : "prepend setNote"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-22",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 283.0, 219.0, 112.0, 22.0 ],
+					"style" : "",
+					"text" : "prepend setOctave"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-21",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 231.0, 185.0, 104.0, 22.0 ],
+					"style" : "",
+					"text" : "prepend setMode"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-20",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 179.0, 151.0, 104.0, 22.0 ],
+					"style" : "",
+					"text" : "prepend setPulse"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"comment" : "JS Global Messages",
+					"id" : "obj-19",
+					"index" : 0,
+					"maxclass" : "inlet",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 142.0, 67.0, 30.0, 30.0 ],
+					"style" : ""
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-18",
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 373.0, 99.0, 37.0, 20.0 ],
+					"patching_rect" : [ 387.0, 99.0, 37.0, 20.0 ],
 					"style" : "",
 					"text" : "Lock"
 				}
@@ -56,7 +161,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 369.75, 121.0, 15.0, 15.0 ],
+					"patching_rect" : [ 383.75, 121.0, 15.0, 15.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 209.0, 1.0, 15.0, 15.0 ],
 					"saved_attribute_attributes" : 					{
@@ -80,7 +185,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 321.0, 99.0, 50.0, 20.0 ],
+					"patching_rect" : [ 335.0, 99.0, 50.0, 20.0 ],
 					"style" : "",
 					"text" : "Note\n"
 				}
@@ -94,7 +199,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "float" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 321.0, 121.0, 50.0, 15.0 ],
+					"patching_rect" : [ 335.0, 121.0, 50.0, 15.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 157.0, 1.0, 50.0, 15.0 ],
 					"saved_attribute_attributes" : 					{
@@ -117,7 +222,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 269.0, 99.0, 50.0, 20.0 ],
+					"patching_rect" : [ 283.0, 99.0, 50.0, 20.0 ],
 					"style" : "",
 					"text" : "Octave\n"
 				}
@@ -131,7 +236,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "float" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 269.0, 121.0, 50.0, 15.0 ],
+					"patching_rect" : [ 283.0, 121.0, 50.0, 15.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 105.0, 1.0, 50.0, 15.0 ],
 					"saved_attribute_attributes" : 					{
@@ -156,7 +261,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "float" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 217.0, 121.0, 50.0, 15.0 ],
+					"patching_rect" : [ 231.0, 121.0, 50.0, 15.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 53.0, 1.0, 50.0, 15.0 ],
 					"saved_attribute_attributes" : 					{
@@ -179,7 +284,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 217.0, 99.0, 50.0, 20.0 ],
+					"patching_rect" : [ 231.0, 99.0, 50.0, 20.0 ],
 					"style" : "",
 					"text" : "Mode"
 				}
@@ -191,7 +296,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 165.0, 99.0, 50.0, 20.0 ],
+					"patching_rect" : [ 179.0, 99.0, 50.0, 20.0 ],
 					"style" : "",
 					"text" : "Pulse\n"
 				}
@@ -205,7 +310,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "float" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 165.0, 121.0, 50.0, 15.0 ],
+					"patching_rect" : [ 179.0, 121.0, 50.0, 15.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 1.0, 1.0, 50.0, 15.0 ],
 					"saved_attribute_attributes" : 					{
@@ -229,7 +334,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 550.0, 259.0, 134.0, 22.0 ],
+					"patching_rect" : [ 142.0, 348.0, 134.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"filename" : "ryk-node-controller.js",
 						"parameter_enable" : 0
@@ -241,12 +346,129 @@
 
 			}
  ],
-		"lines" : [  ],
+		"lines" : [ 			{
+				"patchline" : 				{
+					"destination" : [ "obj-23", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-12", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-25", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-14", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-24", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-16", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-19", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-20", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-21", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-22", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-23", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-24", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-25", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-20", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-3", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-21", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-8", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-22", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-9", 0 ]
+				}
+
+			}
+ ],
 		"parameters" : 		{
+			"obj-9" : [ "live.menu[2]", "live.menu[2]", 0 ],
 			"obj-16" : [ "live.toggle", "live.toggle", 0 ],
 			"obj-8" : [ "live.menu[1]", "live.menu[1]", 0 ],
 			"obj-12" : [ "live.menu[3]", "live.menu[3]", 0 ],
-			"obj-9" : [ "live.menu[2]", "live.menu[2]", 0 ],
 			"obj-3" : [ "live.menu", "live.menu", 0 ]
 		}
 ,

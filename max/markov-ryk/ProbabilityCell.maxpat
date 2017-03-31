@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 241.0, 132.0, 640.0, 480.0 ],
+		"rect" : [ 357.0, 153.0, 640.0, 480.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -38,6 +38,20 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"comment" : "JS Global Messages",
+					"id" : "obj-3",
+					"index" : 0,
+					"maxclass" : "inlet",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 58.0, 79.0, 30.0, 30.0 ],
+					"style" : ""
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-2",
 					"maxclass" : "live.numbox",
 					"numinlets" : 1,
@@ -51,7 +65,8 @@
 						"valueof" : 						{
 							"parameter_longname" : "live.numbox",
 							"parameter_shortname" : "live.numbox",
-							"parameter_type" : 0,
+							"parameter_type" : 1,
+							"parameter_mmax" : 8.0,
 							"parameter_unitstyle" : 0
 						}
 
@@ -68,24 +83,39 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 266.0, 223.0, 111.0, 22.0 ],
+					"patching_rect" : [ 58.0, 226.0, 164.0, 22.0 ],
 					"saved_object_attributes" : 					{
-						"filename" : "probability-cell.js",
+						"filename" : "probability-cell-controller.js",
 						"parameter_enable" : 0
 					}
 ,
 					"style" : "",
-					"text" : "js probability-cell.js"
+					"text" : "js probability-cell-controller.js"
 				}
 
 			}
  ],
-		"lines" : [  ],
+		"lines" : [ 			{
+				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-3", 0 ]
+				}
+
+			}
+ ],
 		"parameters" : 		{
 			"obj-2" : [ "live.numbox", "live.numbox", 0 ]
 		}
 ,
-		"dependency_cache" : [  ],
+		"dependency_cache" : [ 			{
+				"name" : "probability-cell-controller.js",
+				"bootpath" : "~/code/m4ldev/max/markov-ryk",
+				"type" : "TEXT",
+				"implicit" : 1
+			}
+ ],
 		"autosave" : 0
 	}
 

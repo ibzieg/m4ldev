@@ -1,20 +1,22 @@
 "use strict";
+
 var guid = require("utility.js").guid;
 
-function Device() {
-    this.id = guid();
-}
-Device.prototype.getFormattedId = function () {
-    return Device.GLOBAL_ID_PREFIX + this.id;
-};
-Device.prototype.initGlobals = function () {
+var Device = {};
+
+Device.initGlobals = function (deviceId) {
     var devices = new Global(Device.GLOBAL_DEVICE_LIST_NAME);
-    devices[this.getFormattedId()] = {};
-    return devices[this.getFormattedId()];
+    devices[deviceId] = {};
+    return devices[deviceId];
 };
-Device.prototype.getGlobals = function () {
+
+Device.getGlobals = function (deviceId) {
     var devices = new Global(Device.GLOBAL_DEVICE_LIST_NAME);
-    return devices[this.getFormattedId()];
+    return devices[deviceId];
+};
+
+Device.createDeviceId = function() {
+    this.id = Device.GLOBAL_ID_PREFIX + guid();
 };
 
 Device.GLOBAL_ID_PREFIX = "com.ianzieg.max.markov-ryk.Device_";
