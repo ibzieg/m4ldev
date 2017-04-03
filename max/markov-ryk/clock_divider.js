@@ -3,7 +3,7 @@ inlets = 1;
 outlets = 1;
 
 function initialize() {
-    this.clockDivide = 4;
+    this.clockDivide = 1;
     this.reset();
 }
 
