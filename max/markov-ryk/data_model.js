@@ -71,9 +71,11 @@ DataModel.prototype.getRandomOctave = function() {
 };
 
 DataModel.prototype.getRandomNote = function() {
-    var min = 1;
-    var max = 12;
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    var pentatonic = [1, 3, 4, 5, 7];
+    var min = 0;
+    var max = 4;
+    var random =  Math.floor(Math.random() * (max - min + 1)) + min;
+    return pentatonic[random];
 };
 
 DataModel.prototype.randomizeRykNodes = function() {
