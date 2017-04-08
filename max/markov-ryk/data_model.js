@@ -46,18 +46,18 @@ DataModel.prototype.notify = function() {
 };
 
 DataModel.prototype.getRandomPulseCount = function() {
-    var evens = [1, 2, 4, 6, 8];
+    var evens = [1, 2, 4];
     var min = 0;
-    var max = 4;
+    var max = 2;
     var random = Math.floor(Math.random() * (max - min + 1)) + min;
     return evens[random];
 };
 
-DataModel.prototype.getRandomMode = function() {
+DataModel.prototype.getRandomMode = function(pulseCount) {
     var random = Math.random();
     if (random < 0.05) {
         return "Mute";
-    } else if (random < 0.80) {
+    } else if (random < 0.80 || pulseCount >= 6) {
         return "Gate";
     } else {
         return "Repeat";
@@ -65,8 +65,8 @@ DataModel.prototype.getRandomMode = function() {
 };
 
 DataModel.prototype.getRandomOctave = function() {
-    var min = 1;
-    var max = 3;
+    var min = 2;
+    var max = 5;
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
@@ -83,7 +83,7 @@ DataModel.prototype.randomizeRykNodes = function() {
       var rykNode = this.rykNodes[i];
       if (!rykNode.lock) {
           rykNode.pulseCount = this.getRandomPulseCount();
-          rykNode.mode = this.getRandomMode();
+          rykNode.mode = this.getRandomMode(rykNode.pulseCount);
           rykNode.octave = this.getRandomOctave();
           rykNode.note = this.getRandomNote();
       }

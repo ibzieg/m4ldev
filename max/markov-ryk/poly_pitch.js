@@ -23,10 +23,10 @@ var assignCount = 0;
 function msg_int(value) {
     assignCount++;
     assignCount%=6;
-    post("assignCount: "+assignCount);
+/*    post("assignCount: "+assignCount);
     post("\n");
     post("value: "+value);
-    post("\n");
+    post("\n");*/
     try {
         outlet(assignCount, parseInt(value));
     } catch (error) {

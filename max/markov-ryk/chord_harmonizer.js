@@ -19,7 +19,6 @@ setinletassist(-1,function (outletNumber) {
         case 0: assist("note root of chord"); break;
         case 1: assist("mode [0-6]"); break;
         case 2: assist("scale key [0-11]"); break;
-
     }
 });
 
