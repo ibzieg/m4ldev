@@ -5,7 +5,7 @@
 			"major" : 7,
 			"minor" : 3,
 			"revision" : 3,
-			"architecture" : "x64",
+			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
@@ -511,10 +511,10 @@
  ],
 		"parameters" : 		{
 			"obj-8" : [ "live.menu[1]", "live.menu[1]", 0 ],
-			"obj-16" : [ "live.toggle", "live.toggle", 0 ],
-			"obj-3" : [ "live.menu", "live.menu", 0 ],
 			"obj-12" : [ "live.menu[3]", "live.menu[3]", 0 ],
-			"obj-9" : [ "live.menu[2]", "live.menu[2]", 0 ]
+			"obj-3" : [ "live.menu", "live.menu", 0 ],
+			"obj-9" : [ "live.menu[2]", "live.menu[2]", 0 ],
+			"obj-16" : [ "live.toggle", "live.toggle", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
