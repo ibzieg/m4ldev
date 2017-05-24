@@ -83,15 +83,29 @@ DataModel.prototype.notify = function() {
 };
 
 DataModel.prototype.getRandomPulseCount = function() {
-/*    var evens = [1, 2, 4];
-    var min = 0;
-    var max = 2;
- var random = Math.floor(Math.random() * (max - min + 1)) + min;
-    return evens[random];*/
     var min = this.rykParameters.pulseCount.min;
     var max = this.rykParameters.pulseCount.max;
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    if (max < min) {
+        max = min;
+    }
 
+    var options = [];
+    var i;
+
+    for (i = min; i <= max; i++) {
+        // If max is even, only include even pulse counts.
+        // If max is odd, include all possibilities.
+        if (i === 1 ||
+            (max % 2 === 0 && i % 2 === 0) ||
+            max % 2 === 1) {
+            options.push(i);
+        }
+    }
+
+    min = 0;
+    max = options.length-1;
+
+    return options[Math.floor(Math.random() * (max - min + 1)) + min];
 };
 
 DataModel.prototype.getRandomMode = function(pulseCount) {
@@ -136,7 +150,7 @@ DataModel.prototype.randomizeRykNodes = function() {
           rykNode.octave = this.getRandomOctave();
           rykNode.note = this.getRandomNote();
       }
-      post("rykNode["+i+"].note = "+rykNode.note+"\n");
+      post("rykNode["+i+"].pulseCount = "+rykNode.pulseCount+"\n");
   }
   this.notify();
 };
