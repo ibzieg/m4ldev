@@ -112,9 +112,6 @@ DataModel.prototype.getRandomOctave = function() {
 };
 
 DataModel.prototype.getRandomNote = function() {
-    //var pentatonic = [1, 3, 4, 5, 7];
-    //var min = this.rykParameters.note.min;
-    //var max = this.rykParameters.note.max;
     var scale = [];
     if (this.rykParameters.note[1] > 0) scale.push(1);
     if (this.rykParameters.note[2] > 0) scale.push(2);
@@ -124,12 +121,13 @@ DataModel.prototype.getRandomNote = function() {
     if (this.rykParameters.note[6] > 0) scale.push(6);
     if (this.rykParameters.note[7] > 0) scale.push(7);
     var min = 0;
-    var max = scale.length;
+    var max = scale.length-1;
     var random = Math.floor(Math.random() * (max - min + 1)) + min;
     return scale[random];
 };
 
 DataModel.prototype.randomizeRykNodes = function() {
+    post("randomnizeRykNodes\n");
   for (var i = 1; i <= DataModel.NODE_COUNT; i++)  {
       var rykNode = this.rykNodes[i];
       if (!rykNode.lock) {
@@ -138,6 +136,7 @@ DataModel.prototype.randomizeRykNodes = function() {
           rykNode.octave = this.getRandomOctave();
           rykNode.note = this.getRandomNote();
       }
+      post("rykNode["+i+"].note = "+rykNode.note+"\n");
   }
   this.notify();
 };
