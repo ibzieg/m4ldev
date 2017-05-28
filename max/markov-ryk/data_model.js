@@ -39,6 +39,8 @@ function DataModel() {
         }
     };
 
+    this.identityTable();
+
 }
 exports.DataModel = DataModel;
 
@@ -81,6 +83,10 @@ DataModel.prototype.notify = function() {
         }
     }
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// Ryk Sequence
+////////////////////////////////////////////////////////////////////////////////
 
 DataModel.prototype.getRandomPulseCount = function() {
     var min = this.rykParameters.pulseCount.min;
@@ -155,4 +161,51 @@ DataModel.prototype.randomizeRykNodes = function() {
   this.notify();
 };
 
+////////////////////////////////////////////////////////////////////////////////
+// Probability Table
+////////////////////////////////////////////////////////////////////////////////
 
+DataModel.prototype.identityTable = function () {
+    this.probabilityTable = [
+        [0, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0]
+    ];
+    this.notify();
+};
+
+DataModel.prototype.randomizeTable = function () {
+    var canStop = false;
+    var minDestinations = 1;
+    var maxDestinations = 3;
+
+    for (var rowIndex = 0; rowIndex <= DataModel.NODE_COUNT; rowIndex++) {
+        var row = [];
+        var i;
+        for (i = 0; i <= DataModel.NODE_COUNT; i++) {
+            row.push(0);
+        }
+
+        var destinationCount = Math.floor(Math.random() * (maxDestinations - minDestinations + 1)) + minDestinations;
+
+        var minIndex = canStop ? 0 : 1;
+        var maxIndex = DataModel.NODE_COUNT;
+
+        for (i = 0; i < destinationCount; i++) {
+            var index = Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
+            var probability = Math.floor(Math.random() * DataModel.NODE_COUNT) + 1;
+            row[index] = probability;
+        }
+
+        this.probabilityTable[rowIndex] = row;
+    }
+
+    this.notify();
+
+};

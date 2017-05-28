@@ -38,6 +38,36 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-3",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 403.0, 386.0, 77.0, 22.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 1.364014, 74.0, 104.035988, 22.0 ],
+					"style" : "",
+					"text" : "identityTable"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-2",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 388.0, 353.0, 95.0, 22.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 1.364014, 47.0, 104.035988, 22.0 ],
+					"style" : "",
+					"text" : "randomizeTable"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"comment" : "Note out (int)",
 					"id" : "obj-6",
 					"index" : 0,
@@ -85,7 +115,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 59.5, 127.0, 53.0, 20.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 9.964012, 22.0, 48.0, 20.0 ],
+					"presentation_rect" : [ 9.964012, 25.0, 48.0, 20.0 ],
 					"style" : "",
 					"text" : "Divide\n"
 				}
@@ -143,7 +173,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 59.5, 149.0, 62.0, 15.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 68.400002, 24.5, 37.0, 15.0 ],
+					"presentation_rect" : [ 68.400002, 27.5, 37.0, 15.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
 							"parameter_longname" : "live.menu[32]",
@@ -250,6 +280,15 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-4", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-2", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-29", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -274,6 +313,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-29", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-4", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-3", 0 ]
 				}
 
 			}

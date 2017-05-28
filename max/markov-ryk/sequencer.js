@@ -65,3 +65,12 @@ function bang() {
 function randomize() {
     this.getModel().randomizeRykNodes();
 }
+
+
+function randomizeTable() {
+    this.getModel().randomizeTable();
+}
+
+function identityTable() {
+    this.getModel().identityTable();
+}
