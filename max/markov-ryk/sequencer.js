@@ -35,14 +35,14 @@ function bang() {
         case "Gate":
             if (this.pulseCount === 1) {
                 outlet(1, rykNode.octave*12 + rykNode.note);
-                outlet(0, "bang");
+                outlet(0, this.currentStep);
             }
             break;
         case "Mute":
             break;
         case "Repeat":
             outlet(1, rykNode.octave*12 + rykNode.note);
-            outlet(0, "bang");
+            outlet(0, this.currentStep);
             break;
         case "Hold":
             // TODO
