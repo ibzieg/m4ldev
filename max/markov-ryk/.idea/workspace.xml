@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="642b620e-ccf9-4b12-bdf9-0d7bc17ff317" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/table-parameters.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/ryk-parameter-mode.js" afterPath="$PROJECT_DIR$/ryk-parameters.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MarkovRyk.maxpat" afterPath="$PROJECT_DIR$/MarkovRyk.maxpat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SequenceEditor.maxpat" afterPath="$PROJECT_DIR$/SequenceEditor.maxpat" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Sequencer.maxpat" afterPath="$PROJECT_DIR$/Sequencer.maxpat" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/canvas.maxpat" afterPath="$PROJECT_DIR$/canvas.maxpat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data_model.js" afterPath="$PROJECT_DIR$/data_model.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/probability-cell-controller.js" afterPath="$PROJECT_DIR$/probability-cell-controller.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sequencer.js" afterPath="$PROJECT_DIR$/sequencer.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -41,11 +36,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="sequencer.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="sequencer.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/sequencer.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-530">
-                  <caret line="18" column="1" lean-forward="true" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+                <state relative-caret-position="142">
+                  <caret line="22" column="48" lean-forward="true" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
                   <folding />
                 </state>
               </provider>
@@ -61,11 +56,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="probability-cell-controller.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="probability-cell-controller.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/probability-cell-controller.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-290">
-                  <caret line="145" column="28" lean-forward="true" selection-start-line="145" selection-start-column="28" selection-end-line="145" selection-end-column="28" />
+                <state relative-caret-position="2190">
+                  <caret line="180" column="26" lean-forward="true" selection-start-line="180" selection-start-column="26" selection-end-line="180" selection-end-column="26" />
                   <folding />
                 </state>
               </provider>
@@ -243,8 +238,8 @@
         <option value="$PROJECT_DIR$/ryk-parameter-mode.js" />
         <option value="$PROJECT_DIR$/table-parameters.js" />
         <option value="$PROJECT_DIR$/data_model.js" />
-        <option value="$PROJECT_DIR$/sequencer.js" />
         <option value="$PROJECT_DIR$/probability-cell-controller.js" />
+        <option value="$PROJECT_DIR$/sequencer.js" />
       </list>
     </option>
   </component>
@@ -406,7 +401,7 @@
       <workItem from="1491021981276" duration="12166000" />
       <workItem from="1491252986076" duration="1636000" />
       <workItem from="1492752782596" duration="6788000" />
-      <workItem from="1495517951264" duration="22685000" />
+      <workItem from="1495517951264" duration="23523000" />
     </task>
     <task id="LOCAL-00001" summary="Basic UI layout and writing of ryk nodes to data model.">
       <created>1490936371815</created>
@@ -478,11 +473,18 @@
       <option name="project" value="LOCAL" />
       <updated>1495932825063</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="table randomization parameters">
+      <created>1495951632798</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1495951632798</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="61590000" />
+    <option name="totallyTimeSpent" value="62428000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -541,7 +543,8 @@
     <MESSAGE value="fixed even/odd behavior of pulse count randomization" />
     <MESSAGE value="probability table population is working. cell color rendering works" />
     <MESSAGE value="added indicator lights for each ryk node while sequence is playing" />
-    <option name="LAST_COMMIT_MESSAGE" value="added indicator lights for each ryk node while sequence is playing" />
+    <MESSAGE value="table randomization parameters" />
+    <option name="LAST_COMMIT_MESSAGE" value="table randomization parameters" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -856,14 +859,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sequencer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-530">
-          <caret line="18" column="1" lean-forward="true" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data_model.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="362">
@@ -874,8 +869,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/probability-cell-controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-290">
-          <caret line="145" column="28" lean-forward="true" selection-start-line="145" selection-start-column="28" selection-end-line="145" selection-end-column="28" />
+        <state relative-caret-position="2190">
+          <caret line="180" column="26" lean-forward="true" selection-start-line="180" selection-start-column="26" selection-end-line="180" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sequencer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="22" column="48" lean-forward="true" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
           <folding />
         </state>
       </provider>

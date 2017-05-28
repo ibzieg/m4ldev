@@ -20,13 +20,19 @@ function getModel() {
 
 
 function reset() {
-    this.currentStep = 1;
+    this.currentStep = this.getNextNodeIndex(0);
     this.pulseCount = 0;
+}
+
+function start() {
+    if (this.currentStep === 0) {
+        reset();
+    }
 }
 
 function bang() {
 
-    if (this.currentStep === undefined) {
+    if (!this.currentStep) {
         return;
     }
 
