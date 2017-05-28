@@ -7,9 +7,7 @@ outlets = 2;
 
 function initialize(deviceId) {
     this.deviceGlobals = Device.getGlobals(deviceId);
-
     this.reset();
-
 }
 
 function isInitialized() {
@@ -27,6 +25,10 @@ function reset() {
 }
 
 function bang() {
+
+    if (this.currentStep === undefined) {
+        return;
+    }
 
     var rykNode = this.getModel().rykNodes[this.currentStep];
     this.pulseCount++;
@@ -53,19 +55,32 @@ function bang() {
 
     if (this.pulseCount >= rykNode.pulseCount) {
         this.pulseCount = 0;
-        this.currentStep++;
-        if (this.currentStep > DataModel.NODE_COUNT) {
-            this.currentStep = 1;
+        try {
+            this.currentStep = this.getNextNodeIndex(this.currentStep);
+        } catch (error) {
+            post("failed to get next node index: "+error+"\n");
         }
     }
 
+}
 
+function getNextNodeIndex(currentNodeIndex) {
+    var probabilityRow = this.getModel().probabilityTable[currentNodeIndex];
+    var rowLength = probabilityRow.length;
+    var destinations = [];
+    for (var destinationIndex = 0; destinationIndex < rowLength; destinationIndex++) {
+        var probability = probabilityRow[destinationIndex];
+        for (var p = 0; p < probability; p++) {
+            destinations.push(destinationIndex);
+        }
+    }
+    var randomDestinationIndex = Math.floor(Math.random() * destinations.length);
+    return destinations[randomDestinationIndex];
 }
 
 function randomize() {
     this.getModel().randomizeRykNodes();
 }
-
 
 function randomizeTable() {
     this.getModel().randomizeTable();
@@ -73,4 +88,16 @@ function randomizeTable() {
 
 function identityTable() {
     this.getModel().identityTable();
+}
+
+function evolveTable() {
+    this.getModel().evolveTable();
+}
+
+function convergeTable() {
+    this.getModel().convergeTable();
+}
+
+function divergeTable() {
+    this.getModel().divergeTable();
 }

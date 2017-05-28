@@ -130,8 +130,11 @@ function updateColor() {
         total += tableRow[i];
     }
 
-    var scaleFactor = this.state.probability / total;
+    if (total === 0) {
+        total = 1;
+    }
 
+    var scaleFactor = this.state.probability / total;
 
     if (this.column === 0) {
         rgbMax = Colors[7];

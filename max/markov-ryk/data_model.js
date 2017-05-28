@@ -39,6 +39,16 @@ function DataModel() {
         }
     };
 
+    this.tableParameters = {
+        canStop: 0,
+        canLoop: 0,
+        destination: {
+            min: 1,
+            max: 4
+        },
+        evolveAmount: 2
+    };
+
     this.identityTable();
 
 }
@@ -181,9 +191,10 @@ DataModel.prototype.identityTable = function () {
 };
 
 DataModel.prototype.randomizeTable = function () {
-    var canStop = false;
-    var minDestinations = 1;
-    var maxDestinations = 3;
+    var canStop = this.tableParameters.canStop;
+    var canLoop = this.tableParameters.canLoop;
+    var minDestinations =  this.tableParameters.destination.min;
+    var maxDestinations =  this.tableParameters.destination.max;
 
     for (var rowIndex = 0; rowIndex <= DataModel.NODE_COUNT; rowIndex++) {
         var row = [];
@@ -199,6 +210,10 @@ DataModel.prototype.randomizeTable = function () {
 
         for (i = 0; i < destinationCount; i++) {
             var index = Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
+            while (!canLoop && index === rowIndex && maxIndex > 1) {
+                // prevent looping the same note
+                index = Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
+            }
             var probability = Math.floor(Math.random() * DataModel.NODE_COUNT) + 1;
             row[index] = probability;
         }
@@ -208,4 +223,150 @@ DataModel.prototype.randomizeTable = function () {
 
     this.notify();
 
+};
+
+DataModel.prototype.evolveTable = function () {
+    var canStop = this.tableParameters.canStop;
+    var canLoop = this.tableParameters.canLoop;
+    var minDestinations =  this.tableParameters.destination.min;
+    var maxDestinations =  this.tableParameters.destination.max;
+    var evolveAmount = this.tableParameters.evolveAmount;
+
+    for (var rowIndex = 0; rowIndex <= DataModel.NODE_COUNT; rowIndex++) {
+        var row = this.probabilityTable[rowIndex];
+
+        var destinationCount = 0;
+
+        for (var columnIndex = canStop ? 0 : 1; columnIndex <= DataModel.NODE_COUNT; columnIndex++) {
+            if (row[columnIndex] > 0) {
+                var sign = Math.random() > 0.5 ? -1 : 1;
+                var amount = Math.floor(Math.random() * evolveAmount) + 1;
+                var value = row[columnIndex] + sign*amount;
+                if (value < 0) {
+                    value = 0;
+                } else if (value > DataModel.NODE_COUNT) {
+                    value = DataModel.NODE_COUNT;
+                }
+
+                if (value > 0) {
+                    destinationCount++;
+                }
+
+                row[columnIndex] = value;
+            }
+
+        }
+
+        if (destinationCount < maxDestinations) {
+            // if we have fewer than max destinations, add another destination
+            var minIndex = canStop ? 0 : 1;
+            var maxIndex = DataModel.NODE_COUNT;
+            var index = Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
+            while ((!canLoop && index === rowIndex && maxIndex > 1) || row[index] > 0) {
+                index = Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
+            }
+            row[index] = Math.floor(Math.random() * evolveAmount) + 1;
+        }
+
+        this.probabilityTable[rowIndex] = row;
+    }
+
+    this.notify();
+};
+
+DataModel.prototype.convergeTable = function () {
+    var canStop = this.tableParameters.canStop;
+    var canLoop = this.tableParameters.canLoop;
+    var minDestinations =  this.tableParameters.destination.min;
+    var maxDestinations =  this.tableParameters.destination.max;
+    var evolveAmount = this.tableParameters.evolveAmount;
+
+    for (var rowIndex = 0; rowIndex <= DataModel.NODE_COUNT; rowIndex++) {
+        var row = this.probabilityTable[rowIndex];
+
+        var columnIndex;
+        var maxValue = -1;
+        var maxIndex;
+
+        for (columnIndex = 0; columnIndex <= DataModel.NODE_COUNT; columnIndex++) {
+            if (row[columnIndex] > maxValue) {
+                maxValue = row[columnIndex];
+                maxIndex = columnIndex;
+            }
+        }
+
+        for (columnIndex = 0; columnIndex <= DataModel.NODE_COUNT; columnIndex++) {
+            if (row[columnIndex] > 0) {
+                var sign;
+                if (columnIndex === maxIndex) {
+                    sign = 1;
+                } else if (row[columnIndex] > 0) {
+                    sign = -1;
+                }
+
+                var amount = Math.floor(Math.random() * evolveAmount) + 1;
+                var value = row[columnIndex] + sign * amount;
+                if (value < 0) {
+                    value = 0;
+                } else if (value > DataModel.NODE_COUNT) {
+                    value = DataModel.NODE_COUNT;
+                }
+                row[columnIndex] = value;
+            }
+
+        }
+
+        this.probabilityTable[rowIndex] = row;
+    }
+
+    this.notify();
+};
+
+
+DataModel.prototype.divergeTable = function () {
+    var canStop = this.tableParameters.canStop;
+    var canLoop = this.tableParameters.canLoop;
+    var minDestinations =  this.tableParameters.destination.min;
+    var maxDestinations =  this.tableParameters.destination.max;
+    var evolveAmount = this.tableParameters.evolveAmount;
+
+    for (var rowIndex = 0; rowIndex <= DataModel.NODE_COUNT; rowIndex++) {
+        var row = this.probabilityTable[rowIndex];
+
+        var columnIndex;
+        var maxValue = -1;
+        var maxIndex;
+
+        for (columnIndex = 0; columnIndex <= DataModel.NODE_COUNT; columnIndex++) {
+            if (row[columnIndex] > maxValue) {
+                maxValue = row[columnIndex];
+                maxIndex = columnIndex;
+            }
+        }
+
+        for (columnIndex = 0; columnIndex <= DataModel.NODE_COUNT; columnIndex++) {
+
+            var sign;
+            if (columnIndex === maxIndex) {
+                sign = -1;
+            } else if (row[columnIndex] > 0) {
+                sign = 1;
+            }
+
+            var amount = Math.floor(Math.random() * evolveAmount) + 1;
+            var value = row[columnIndex] + sign * amount;
+            if (value < 0) {
+                value = 0;
+            } else if (value > DataModel.NODE_COUNT) {
+                value = DataModel.NODE_COUNT;
+            }
+            row[columnIndex] = value;
+
+        }
+
+        this.probabilityTable[rowIndex] = row;
+
+    }
+
+    this.notify();
 };
